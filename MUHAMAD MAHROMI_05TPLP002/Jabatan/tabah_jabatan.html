@@ -1,14 +1,13 @@
+<!DOCTYPE html>
 <html>
- <head>
-  <title>
-   Data Jabatan Karyawan
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
- </head>
- <body class="bg-gray-100">
-  <div class="flex">
+<head>
+    <title>Tambah Jabatan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https:// cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100">
+    <div class="flex">
+        <!-- Sidebar -->
    <!-- Sidebar -->
    <div class="w-64 bg-blue-700 text-white min-h-screen">
     <div class="p-4 flex items-center">
@@ -70,66 +69,53 @@
         </ul>
     </div>
 </div>
-   <!-- Main Content -->
-   <div class="flex-1 p-6">
-    <div class="bg-white p-6 rounded shadow-md">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold">Data Jabatan</h2>
-            <a href="../Jabatan/tabah_jabatan.html">
-                <button class="bg-blue-700 text-white px-4 py-2 rounded">
-                    <i class="fas fa-plus mr-2"></i> Tambah Jabatan
-                </button>
-            </a>
-        </div>
-        <div class="flex justify-between items-center mb-4">
-            <div>
-                <label class="mr-2" for="entries">Show</label>
-                <select class="border rounded p-1" id="entries">
-                    <option>10</option>
-                    <option>25</option>
-                    <option>50</option>
-                    <option>100</option>
-                </select>
-                <span class="ml-2">entries</span>
+        <!-- Main Content -->
+        <div class="flex-1 p-6">
+            <div class="bg-white p-6 rounded shadow-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold">Tambah Jabatan</h2>
+                </div>
+                <form id="jabatanForm">
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label class="block text-gray-700">Kode Jabatan</label>
+                            <input id="kode" class="w-full border border-gray-300 p-2 rounded" type="text" required/>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700">Jabatan</label>
+                            <input id="jabatan" class="w-full border border-gray-300 p-2 rounded" type="text" required/>
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <button class="bg-green-500 text-white px-4 py-2 rounded mr-2" type="submit">
+                            <i class="fas fa-save mr-2"></i> Simpan
+                        </button>
+                        <button class="bg-red-500 text-white px-4 py-2 rounded" type="button" onclick="window.history.back();">
+                            <i class="fas fa-times mr-2"></i> Batal
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <label class="mr-2" for="search">Search:</label>
-                <input class="border rounded p-1" id="search" type="text"/>
-            </div>
         </div>
-        <table class="min-w-full bg-white" id="jabatanTable">
-            <thead>
-                <tr>
-                    <th class="py-2 px-4 border-b text-left">No</th>
-                    <th class="py-2 px-4 border-b text-left">Kode Jabatan</th>
-                    <th class="py-2 px-4 border-b text-left">Jabatan</th>
-                    <th class="py-2 px-4 border-b text-left">Aksi</th>
-                </tr>
-            </thead>
-            <tbody id="jabatanTbody">
-                <!-- Data jabatan akan ditampilkan disini -->
-            </tbody>
-        </table>
     </div>
-</div>
-</div>
-<script>
-const jabatanData = JSON.parse(localStorage.getItem('jabatanData')) || [];
-const jabatanTbody = document.getElementById('jabatanTbody');
+    <script>
+        document.getElementById('jabatanForm').addEventListener('submit', function (event) {
+            event.preventDefault();
 
-jabatanData.forEach((data, index) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td class="py-2 px-4 border-b">${index + 1}</td>
-        <td class="py-2 px-4 border-b">${data.kode}</td>
-        <td class="py-2 px-4 border-b">${data.jabatan}</td>
-        <td class="py-2 px-4 border-b">
-            <a class="text-blue-500" href="#"><i class="fas fa-edit"></i></a>
-            <a class="text-red-500 ml-2" href="#"><i class="fas fa-trash"></i></a>
-        </td>
-    `;
-    jabatanTbody.appendChild(row);
-});
-</script>
+            const kode = document.getElementById('kode').value;
+            const jabatan = document.getElementById('jabatan').value;
+
+            const data = {
+                kode: kode,
+                jabatan: jabatan
+            };
+
+            const jabatanData = JSON.parse(localStorage.getItem('jabatanData')) || [];
+            jabatanData.push(data);
+            localStorage.setItem('jabatanData', JSON.stringify(jabatanData));
+
+            window.location.href = 'jabatan.html';
+        });
+    </script>
 </body>
 </html>
