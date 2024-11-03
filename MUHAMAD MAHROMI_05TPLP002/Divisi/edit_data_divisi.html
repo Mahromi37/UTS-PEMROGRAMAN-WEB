@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tambah Divisi</title>
+    <title>Edit Divisi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
 </head>
@@ -17,7 +17,7 @@
             </div>
             <div class="p-4">
                 <div class="flex items-center mb-4">
-                    <img src="https://storage.googleapis.com/a1aa/image/TpLGuP7tHOKRL1w0OlM5hJc0vrXNYhTFeJexxHfFNHvvMxZnA.jpg" alt="User Avatar" class="w-10 h-10 rounded-full mr-2" width="40" height="40"/>
+                    <img src="https://storage.googleapis.com/a1aa/image/TpLGuP7tHOKRL1w0OlM5hJc0vrXNYhTFeJexxHfFNHvvMxZnA.jpg" alt="User  Avatar" class="w-10 h-10 rounded-full mr-2" width="40" height="40"/>
                     <div>
                         <p>Muhamad Mahromi</p>
                         <p class="text-sm">Administrator</p>
@@ -71,39 +71,57 @@
         <!-- Main Content -->
         <div class="flex-1 p-6">
             <div class="bg-white p-6 rounded shadow-md">
-                <h2 class="text-xl font-bold">Tambah Divisi</h2>
-                <form id="tambahDivisiForm">
-                    <div class="flex justify-between items-center mb-4">
-                        <label class="mr-2" for="kode">Kode Divisi:</label>
-                        <input class="border rounded p-1" id="kode" type="text"/>
-                    </div>
-                    <div class="flex justify-between items-center mb-4">
-                        <label class="mr-2" for="nama">Nama Divisi:</label>
-                        <input class="border rounded p-1" id="nama" type="text"/>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold">Edit Divisi</h2>
+                </div>
+                <form id="divisiForm">
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label class="block text-gray-700">Kode Divisi</label>
+                            <input id="kode" class="w-full border border-gray-300 p-2 rounded" type="text" required/>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700">Nama Divisi</label>
+                            <input id="nama" class="w-full border border-gray-300 p-2 rounded" type="text" required/>
+                        </div>
                     </div>
                     <div class="flex justify-end mt-4">
-                        <button class="bg-green-500 text-white px-4 py-2 rounded mr-2" type="submit">
-                            <i class="fas fa-save mr-2"></i> Simpan
-                        </button>
-                        <button class="bg-red-500 text-white px-4 py-2 rounded" type="button" onclick="window.history.back();">
-                            <i class="fas fa-times mr-2"></i> Batal
-                        </button>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <script>
-        const tambahDivisiForm = document.getElementById('tambahDivisiForm');
-        tambahDivisiForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+        const divisiData = JSON.parse(localStorage.getItem('divisiData')) || [];
+        const urlParams = new URLSearchParams(window.location.search);
+        const index = urlParams.get('index');
+
+        if (index !== null) {
+            const divisi = divisiData[index];
+            document.getElementById('kode').value = divisi.kode;
+            document.getElementById('nama').value = divisi.nama;
+        }
+
+        document.getElementById('divisiForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
             const kode = document.getElementById('kode').value;
             const nama = document.getElementById('nama').value;
-            const divisiData = JSON.parse(localStorage.getItem('divisiData')) || [];
-            divisiData.push({ kode, nama });
+
+            if (index !== null) {
+                // Update existing divisi
+                divisiData[index] = { kode, nama };
+            } else {
+                // Add new divisi
+                divisiData.push({ kode, nama });
+            }
+
             localStorage.setItem('divisiData', JSON.stringify(divisiData));
-            window.location.href = 'divisi.html';
+            alert('Data divisi berhasil disimpan!');
+            window.location.href = 'divisi.html'; // Kembali ke halaman divisi
         });
     </script>
 </body>
 </html>
+                        
